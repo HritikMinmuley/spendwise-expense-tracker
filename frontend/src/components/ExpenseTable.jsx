@@ -14,7 +14,7 @@ import { Trash } from "lucide-react";
 import { Button } from "./ui/button";
 import UpdateExpense from "./UpdateExpense";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../lib/axios";
 import { toast } from "sonner";
 
 
@@ -40,11 +40,10 @@ const ExpenseTable = () => {
   const handleCheckboxChange = async (expenseId)=>{
     const newStatus = !checkedItems[expenseId]
     try {
-      const res = await axios.put(`http://localhost:8000/api/v1/expense/${expenseId}/done`,{done:newStatus},{
+      const res = await api.put(`/expense/${expenseId}/done`,{done:newStatus},{
         headers:{
           'Content-Type':'application/json'
         },
-        withCredentials:true
       });
       if(res.data.success){
         toast.success(res.data.message)
@@ -63,7 +62,7 @@ const ExpenseTable = () => {
 
   const removeExpenseHandler = async (expenseId) => {
     try {
-      const res = await axios.delete(`http://localhost:8000/api/v1/expense/remove/${expenseId}`)
+      const res = await api.delete(`/expense/remove/${expenseId}`)
       if (res.data.success) {
         toast.success(res.data.message)
         //update the local state

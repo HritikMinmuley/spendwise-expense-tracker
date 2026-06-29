@@ -21,7 +21,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Loader2 } from 'lucide-react'
-import axios from 'axios'
+import api from "../lib/axios";
 import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
 import { setExpenses } from '@/redux/expenseSlice'
@@ -59,11 +59,10 @@ const CreateExpense = () => {
         console.log(formData)
         try {
             setLoading(true)
-            const res = await axios.post("http://localhost:8000/api/v1/expense/add", formData, {
+            const res = await api.post("/expense/add", formData, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                withCredentials: true
             })
             if (res.data.success) {
                 dispatch(setExpenses([...expenses,res.data.expense]))

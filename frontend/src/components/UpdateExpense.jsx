@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Edit2, Loader2 } from 'lucide-react'
-import axios from 'axios'
+import api from "../lib/axios";
 import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
 import { setExpenses, setSingleExpense } from '@/redux/expenseSlice'
@@ -67,11 +67,10 @@ const UpdateExpense = ({expense}) => {
     console.log(formData)
     try {
       setLoading(true)
-      const res = await axios.put(`http://localhost:8000/api/v1/expense/update/${expense._id}`, formData, {
+      const res = await api.put(`/expense/update/${expense._id}`, formData, {
         headers: {
           'Content-Type': 'application/json'
         }, 
-        withCredentials: true
       })
       if (res.data.success) {
         const updatedExpenses = expenses.map(exp=>exp._id === expense._id ? res.data.expense: exp);
