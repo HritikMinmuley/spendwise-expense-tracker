@@ -100,7 +100,13 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    return res.status(200).json({
       message: "User logged out successfully",
       success: true,
     });
@@ -108,7 +114,8 @@ export const logout = async (req, res) => {
     console.log(error);
     return res.status(500).json({
       message: "Internal Server Error",
-      success: false
+      success: false,
     });
   }
 };
+
