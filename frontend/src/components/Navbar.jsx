@@ -23,7 +23,6 @@ const Navbar = () => {
     const logoutHandler = async () => {
         try {
             const res = await api.get("/user/logout");
-
             if (res.data.success) {
                 dispatch(setAuthUser(null));
                 dispatch(setExpenses([]));
@@ -31,6 +30,7 @@ const Navbar = () => {
                 dispatch(setCategory(""));
                 dispatch(setMarkAsDone(""));
 
+                await persistor.purge();
                 navigate("/login", { replace: true });
                 toast.success(res.data.message);
             }

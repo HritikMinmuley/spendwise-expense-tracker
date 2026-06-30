@@ -10,6 +10,7 @@ import {
     PERSIST,
     PURGE,
     REGISTER,
+    persistStore
 } from 'redux-persist';
 
 import storageModule from "redux-persist/lib/storage";
@@ -37,5 +38,7 @@ const store = configureStore({
             },
         }),
 })
+
+export const persistor = persistStore(store);
 
 export default store;
